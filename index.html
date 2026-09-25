@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Fallback ultra-rapide si JS est désactivé -->
+  <noscript>
+    <meta http-equiv="refresh" content="0;url=https://www.laubes.site/2026/09/ho-scoperto-per-caso-questo-angolo.html">
+  </noscript>
+
+  <style>
+    /* Empêche tout flash blanc / contenu visible */
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    (async function () {
+      const URLS = [
+        "https://www.laubes.site/2026/09/ho-scoperto-per-caso-questo-angolo.html",
+        "https://www.laubes.site/2026/09/quale-formaggio-italiano-usare-in.html",
+        "https://www.laubes.site/2026/09/non-e-roma-o-napoli-questa-e-la-citta.html",
+        "https://www.laubes.site/2026/09/visitare-la-liguria-via-mare-itinerario.html",
+        "https://www.laubes.site/2026/09/questi-5-classici-italiani-che-gli.html"
+      ];
+
+      // Clé unique pour ton compteur (change-la si tu veux repartir à zéro)
+      const COUNTER_KEY = "laubes-blog-rotator-v1";
+
+      async function getNextIndex() {
+        // 1. Essai principal (très fiable)
+        try {
+          const res = await fetch(`https://countapi.mileshilliard.com/api/v1/hit/${COUNTER_KEY}`, {
+            method: "GET",
+            cache: "no-store"
+          });
+          if (res.ok) {
+            const data = await res.json();
+            const value = parseInt(data.value, 10);
+            if (!isNaN(value) && value > 0) {
+              return (value - 1) % URLS.length;
+            }
+          }
+        } catch (e) {}
+
+        // 2. Fallback Abacus
+        try {
+          const res = await fetch(`https://abacus.jasoncameron.dev/hit/laubes/${COUNTER_KEY}`, {
+            method: "GET",
+            cache: "no-store"
+          });
+          if (res.ok) {
+            const data = await res.json();
+            const value = parseInt(data.value, 10);
+            if (!isNaN(value) && value > 0) {
+              return (value - 1) % URLS.length;
+            }
+          }
+        } catch (e) {}
+
+        // 3. Dernier recours : basé sur l'heure (toujours différent)
+        return Math.floor(Date.now() / 1000) % URLS.length;
+      }
+
+      try {
+        const index = await getNextIndex();
+        const target = URLS[index];
+
+        // Redirection la plus propre possible (ne laisse pas GitHub dans l'historique)
+        window.location.replace(target);
+      } catch (err) {
+        // Sécurité ultime
+        window.location.replace(URLS[0]);
+      }
+    })();
+  </script>
+</body>
+</html>
